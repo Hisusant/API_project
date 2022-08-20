@@ -16,8 +16,28 @@ def multiplication1():
         result = a*b
         return jsonify((str(result)))
 
+@app.route('/abc1/division1', methods=['GET','POST'])
+def div1():
+    if (request.method=='POST'):
+        a = request.json['num1']
+        b = request.json['num2']
+        result = a/b
+        return jsonify((str(result)))
 
+@app.route('/abc1/exponent1', methods=['GET','POST'])
+def expo1():
+    if (request.method=='POST'):
+        a = request.json['num1']
+        b = request.json['num2']
+        result = a%b
+        return jsonify((str(result)))
 
-
+@app.route('/abc1/root12', methods=['GET','POST'])
+def root1():
+    if (request.method=='POST'):
+        a = request.json['num1']
+        b = request.json['num2']
+        result = a**b
+        return jsonify((str(result)))
 if __name__ == '__main__':
     app.run()
