@@ -48,11 +48,9 @@ def mysql_dbconn():
             engine = conn.connect(host='localhost', user='root', passwd='susant123')
             #establish connection
             cursor = engine.cursor()  # creating cursor object
-            query1 = request.json['query_db'] # "query_db" = "create database API_DB"
-            query2 = request.json['query_table'] # "query_table" = "create table api_table"
+            query1 = request.json['query_db'] # "query_db" : "create database API_DB"
             cursor.execute(query1)
-            cursor.execute(query2)
-            result = "database and table connected"
+            result = "database created"
             engine.close()
             return jsonify((str(result)))
         except Exception as e:
