@@ -34,6 +34,16 @@ def update():
             return jsonify(str(e))
 
 
+@app.route('/sqldb/delete', methods=['POST','GET'])
+def delete():
+    if request.method=='POST':
+        try:
+            name1 = request.json['name']
+            cursor.execute("delete from api_db.employ_details where name=%s",(name1,)) # name - column name in sql
+            mydb.commit()
+            return jsonify(str("one record deleted"))
+        except Exception as e:
+            return jsonify(str(e))
 
 if __name__ == '__main__':
     app.run(port=5002)
