@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
+import mysql.connector as conn
 app = Flask(__name__)
-@app.route('/abc', methods=['GET','POST'])
+
+mydb = conn.connect
+@app.route('/abcd', methods=['GET','POST'])
 def test():
     if (request.method=='POST'):
         a = request.json['num1']
@@ -45,13 +48,34 @@ def root1():
 def mysql_dbconn():
     if (request.method=='POST'):
         try:
-            engine = conn.connect(host='localhost', user='root', passwd='susant123')
-            #establish connection
-            cursor = engine.cursor()  # creating cursor object
-            query1 = request.json['query_db'] # "query_db" : "create database API_DB"
+            mydb = conn.connect(host='localhost', user='root', passwd='susant123')
+            #establish database connection
+            cursor = mydb.cursor()  # creating cursor object
+            query1 = request.json['query_db'] # "query_db" : "create database if not exists API_DB"
             cursor.execute(query1)
             result = "database created"
-            engine.close()
+            #mydb.close()
+            return jsonify((str(result)))
+        except Exception as e:
+            return jsonify((str(e)))
+
+
+@app.route('/db/insert', methods=['GET','POST'])
+def mysql_insert1():
+    if (request.method=='POST'):
+        try:
+            mydb = conn.connect(host='localhost', user='root',passwd='susant123',database='API_DB' )
+            #establish database connection
+            cursor = mydb.cursor()  # creating cursor object
+            name1 = request.json['name']
+            age1 = request.json['age']
+            sal1 = request.json['sal']
+            dept1 = request.json['dept']
+            insert1 = "insert into employ_info values(%s,%s,%s,%s)",(name1,age1,sal1,dept1)
+            cursor.execute(insert1)
+            mydb.commit()
+            #mydb.close()
+            result = "one record inserted"
             return jsonify((str(result)))
         except Exception as e:
             return jsonify((str(e)))
